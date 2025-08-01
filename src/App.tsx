@@ -173,6 +173,19 @@ const App: React.FC = () => {
     return `${mins}:${secs < 10 ? "0" : ""}${secs}`;
   };
 
+  // Handle going back to menu
+  const handleBackToMenu = () => {
+    setGameMode(null);
+    setStage(1);
+    setScore(0);
+    setQuestions([]);
+    setCurrentQuestionIndex(0);
+    setUserAnswer("");
+    setMessage("");
+    setTimeLeft(120);
+    setGameOver(false);
+  };
+
   // Render loading state
   if (loading) {
     return (
@@ -243,11 +256,20 @@ const App: React.FC = () => {
 
       {/* Main content */}
       <div className="bg-white p-6 rounded-xl shadow-lg max-w-md w-full relative z-10">
+        {/* Back to Menu Button */}
+        <button
+          onClick={handleBackToMenu}
+          className="absolute -top-12 left-0 text-sm bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded transition"
+        >
+          ← Back to Menu
+        </button>
+
         {loading && (
           <div className="absolute inset-0 bg-white bg-opacity-80 flex items-center justify-center rounded-xl">
             <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
           </div>
         )}
+
         <div className="text-center mb-4">
           <h1 className="text-2xl font-bold text-gray-800">Stage {stage}</h1>
           <p className="text-gray-600">
@@ -298,7 +320,7 @@ const App: React.FC = () => {
           <div className="text-center text-gray-600 py-8">
             <p className="mb-4">Preparing your questions...</p>
             <button
-              onClick={() => setGameMode(null)}
+              onClick={handleBackToMenu}
               className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
             >
               Back to Menu
